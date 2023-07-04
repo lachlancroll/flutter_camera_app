@@ -83,15 +83,20 @@ class _PreviewPageState extends State<PreviewPage> {
   }
 
   Future<List<dynamic>> predictImage(String path) async {
-    // Read the image
     img.Image? image = img.decodeImage(File(path).readAsBytesSync());
 
-    // Resize the image
-    img.Image resizedImg = img.copyResize(image!, width: 160, height: 90);
+    File resizedFile; // Define here
 
-    // Create a new file with the resized image
-    File resizedFile = File('$path-resized.jpg')
-      ..writeAsBytesSync(img.encodeJpg(resizedImg));
+    if (image != null) {
+      // Resize the image
+      img.Image resizedImg = img.copyResize(image, width: 90, height: 160);
+
+      // Create a new file with the resized image
+      resizedFile = File('$path-resized.jpg') // Assign here
+        ..writeAsBytesSync(img.encodeJpg(resizedImg));
+    } else {
+      return []; // Return an empty list if image is null
+    }
 
     var output = await Tflite.runModelOnImage(
       path: resizedFile.path, // feed resized image
