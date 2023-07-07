@@ -15,6 +15,8 @@ class CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   bool _isCameraInitialized = false;
   late final List<CameraDescription> _cameras;
   bool _isRecording = false;
+  bool _isDetecting = false;
+  int frameCount = 0;
 
   @override
   void initState() {
@@ -140,6 +142,22 @@ class CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
     // Initialize controller
     try {
       await cameraController.initialize();
+      int frameSkipRate = 10; // change this to process every nth frame
+
+      cameraController.startImageStream((CameraImage image) {
+        frameCount++;
+        if (_isDetecting || frameCount % frameSkipRate != 0) return;
+        _isDetecting = true;
+        try {
+          // await doSomethingWith(image)
+          
+          //print("HEEEEEEEEELLLLLLLLLLLLOOOOOOOOOOOOO");
+        } catch (e) {
+          // await handleExepction(e)
+        } finally {
+          _isDetecting = false;
+        }
+      });
     } on CameraException catch (e) {
       debugPrint('Error initializing camera: $e');
     }

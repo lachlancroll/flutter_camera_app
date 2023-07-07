@@ -97,25 +97,6 @@ class _PreviewPageState extends State<PreviewPage> {
     super.dispose();
   }
 
-  /*@override
-  Widget build(BuildContext context) {
-    // First, get the prediction
-    Future<List> prediction = predictImage(widget.imagePath ?? "");
-
-    // Next, use a FutureBuilder to display the prediction once it's available
-    return FutureBuilder<List>(
-      future: prediction,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          // snapshot.data will contain your prediction
-          return Text("Prediction: ${snapshot.data.toString()}");
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return CircularProgressIndicator();
-      },
-    );
-  }*/
   @override
   Widget build(BuildContext context) {
     // First, get the prediction
